@@ -1,32 +1,30 @@
 import faker from 'faker'
-import moment from 'moment'
-
-function randomEvent(from, to) {
-  const start = moment(faker.date.between(from, to))
-  const end = moment(start).add(faker.random.number(30), 'days')
-  return {
-    id: String(faker.random.uuid()),
-    start,
-    end,
-    expanded: true,
-    title: faker.random.arrayElement(['Meet', 'Inauguration', 'Ceremony', 'Ball', 'Party']) +
-    ' @ ' + faker.address.city()
-  }
-}
 
 export default function () {
-  const result = []
-  for (let i = 0; i < 300; i++) {
-    result.push(randomEvent(
-      moment().add(-1, 'year').toISOString(),
-      moment().add(2, 'year').toISOString()))
+  const items = []
+  for(let i=0; i < 50; i++) {
+    const parent = {
+      id: i,
+      title: faker.address.city() + ' - ' + faker.company.companyName() + ' - ' + faker.name.jobArea(),
+      children: []
+    }
+    for(let i=0; i < 35; i++) {
+      const child = {
+        id: i,
+        title: faker.commerce.department() + ' - ' + faker.name.jobTitle(),
+        children: []
+      }
+      for(let i=0; i < 75; i++) {
+        const grandchild = {
+          id: i,
+          title: faker.name.lastName() + ', ' + faker.name.firstName(),
+          leaf: true
+        }
+        child.children.push(grandchild)
+      }
+      parent.children.push(child)
+    }
+    items.push(parent)
   }
-  // add a few closer ones
-  for (let i = 0; i < 50; i++) {
-    result.push(randomEvent(
-      moment().add(-15, 'day').toISOString(),
-      moment().add(25, 'day').toISOString()
-    ))
-  }
-  return result
+  return items
 }

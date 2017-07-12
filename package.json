@@ -47,6 +47,7 @@
     "enzyme": "^2.4.1",
     "eslint": "^4.0.0",
     "eslint-config-f1-react": "^1.0.1",
+    "faker": "^4.1.0",
     "ignore-styles": "^5.0.1",
     "jsdom": "^9.6.0",
     "mocha": "^3.0.1",
