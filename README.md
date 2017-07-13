@@ -17,38 +17,53 @@ Example
 -------
 
 ```
-const sampleItems = [
-]
+const sampleItems = sampleData()
 
-class ParentComponent extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            selection: [],
-            items: [],
-            loadingItems: false
-        }
-        this.selectItem = this.selectItem.bind(this)
-    }
+const Spinner = () => <span>Please wait...</span>
 
-    selectItem(item) {
-        this.selection.push(item)
-        if(!item.leaf)
-            this.loadItems()
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      selection: [],
+      items: [],
+      loadingItems: false
     }
+    this.selectItem = this.selectItem.bind(this)
+  }
 
-    componentDidMount() {
-        this.loadItems()
-    }
+  selectItem(item) {
+    this.setState({
+      selection: this.state.selection.concat([item])
+    })
+    if(!item.leaf)
+      this.loadItems()
+    //else
+      // something to send the selection to the parent component?
+  }
 
-    loadItems() {
-        this.setState({loadingItems: true, items: []})
-    }
+  unselectItem() {
+    this.setState({
+      selection: this.state.selection.slice(0, this.state.selection.length - 1)
+    })
+    this.loadItems()
+  }
 
-    render() {
-        return <NestedDropdown items={this.state.items} 
-                    loadingItems={this.state.loadingItems}
-                    selection={this.state.selection} />
-    }
+  componentDidMount() {
+    this.loadItems()
+  }
+
+  loadItems() {
+    // ... something to load the items
+  }
+
+  render() {
+    return <NestedDropdown items={this.state.items}
+      loadingItems={this.state.loadingItems}
+      loadingComponent={Spinner}
+      selectItem={this.selectItem}
+      unselectItem={this.unselectItem}
+      selection={this.state.selection} />
+  }
 }
 ```
