@@ -1,5 +1,7 @@
 Provide a way to select an item from a nested list, each level being dynamically loaded.
 
+![Sample Dropdown](https://raw.githubusercontent.com/nicocrm/nested-dropdown/master/sample.png)
+
 Props
 -----
 
